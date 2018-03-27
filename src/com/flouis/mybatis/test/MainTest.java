@@ -32,6 +32,9 @@ public class MainTest {
 		User user = session.selectOne(statement, 1);
 		System.out.println(user); // com.flouis.mybatis.entity.User@59ec2012
 		System.out.println(user.getId()+":"+user.getName()+":"+user.getAge());
+		
+		session.close();
+		reader.close();
 	}
 	
 }
