@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
 
+import com.flouis.mybatis.entity.Order;
 import com.flouis.mybatis.entity.User;
 import com.flouis.mybatis.mapper.UserMapper;
 
@@ -137,4 +138,25 @@ public class MainTest {
 		session.close();
 		reader.close();
 	}
+	
+	@Test
+	public void testSelectOrder() throws Exception{
+		String resource = "com/flouis/mybatis/resource/mybatis_conf.xml";
+		Reader reader = Resources.getResourceAsReader(resource);
+		SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+		SqlSession session = sessionFactory.openSession(true);
+		String statement = "com.flouis.mybatis.resource.orderMapper.";
+		String operation = "selectOrderById";
+		
+//		Order order = session.selectOne(statement+operation,1);
+//		System.out.println(order.getId()+":"+order.getOrderCode()+":"+order.getOrderPrice());
+		
+		operation = "selectOrderResultMapById";
+		Order order = session.selectOne(statement+operation,3);
+		System.out.println(order.getId()+":"+order.getOrderCode()+":"+order.getOrderPrice());
+		
+		session.close();
+		reader.close();
+	}
+	
 }

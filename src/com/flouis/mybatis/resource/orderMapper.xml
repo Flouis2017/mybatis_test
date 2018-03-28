@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flouis.mybatis.resource.orderMapper">
+	
+	<!-- 解决字段名与实体类成员变量名不相同的冲突 -->
+	
+	<!-- 方式一：通过sql语句中定义别名 -->
+	<select id="selectOrderById" parameterType="int" resultType="_Order">
+		select order_id id,order_code orderCode,order_price orderPrice
+		from orders where order_id = #{id}
+	</select>
+	
+	<!-- 方式二：通过<resultMap> -->
+	<select id="selectOrderResultMapById" parameterType="int" 
+		resultMap="orderResultMap">
+		select * from orders where order_id = #{id}
+	</select>
+	<!-- 将实体类成员变量名与字段名进行一一映射：property是成员变量名，column是字段名 -->
+	<resultMap type="_Order" id="orderResultMap">
+		<id property="id" column="order_id"/>
+		<result property="orderCode" column="order_code"/>
+		<result property="orderPrice" column="order_price"/>
+	</resultMap>
+	
+</mapper>
+
+
