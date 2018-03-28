@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
 
 import com.flouis.mybatis.entity.User;
+import com.flouis.mybatis.mapper.UserMapper;
 
 public class MainTest {
 
@@ -104,6 +105,35 @@ public class MainTest {
 		User tmpUser = new User(7,"TSET",50);
 		int res = session.update(statement, tmpUser);
 		System.out.println(res);
+		session.close();
+		reader.close();
+	}
+	
+	@Test
+	public void testUserMapper() throws Exception{
+		String resource = "com/flouis/mybatis/resource/mybatis_conf.xml";
+		Reader reader = Resources.getResourceAsReader(resource);
+		SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+		SqlSession session = sessionFactory.openSession(true);
+		UserMapper um = session.getMapper(UserMapper.class);
+		
+		User user = um.findUserById(1);
+		System.out.println(user.getId()+":"+user.getName()+":"+user.getAge());
+		
+//		List<User> userList = um.findAllUsers();
+//		for (User user:userList){
+//			System.out.println(user.getId()+":"+user.getName()+":"+user.getAge());
+//		}
+		
+//		User user = new User("Zhangsan",26);
+//		int res = um.insertUser(user);
+//		System.out.println(res);
+		
+//		User user = um.findUserById(9);
+//		user.setAge(30);
+//		user.setName("Lisi");
+//		System.out.println(um.updateUserById(user));
+		
 		session.close();
 		reader.close();
 	}

@@ -26,6 +26,8 @@
 	
 	<mappers>
 		<mapper resource="com/flouis/mybatis/resource/userMapper.xml"/>
+		
+		<mapper class="com.flouis.mybatis.mapper.UserMapper"/>
 	</mappers>
 	
 </configuration>
