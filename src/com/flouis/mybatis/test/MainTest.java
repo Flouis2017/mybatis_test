@@ -1,6 +1,7 @@
 package com.flouis.mybatis.test;
 
 import java.io.Reader;
+import java.util.List;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -37,4 +38,73 @@ public class MainTest {
 		reader.close();
 	}
 	
+	@Test
+	public void testFindUserById() throws Exception{
+		String resource = "com/flouis/mybatis/resource/mybatis_conf.xml";
+		Reader reader = Resources.getResourceAsReader(resource);
+		SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+		SqlSession session = sessionFactory.openSession();
+		String statement = "com.flouis.mybatis.resource.userMapper.findUserById";
+		User user = session.selectOne(statement, 2);
+		System.out.println(user.getId()+":"+user.getName()+":"+user.getAge());
+		session.close();
+		reader.close();
+	}
+	
+	@Test
+	public void testFindAllUsers() throws Exception{
+		String resource = "com/flouis/mybatis/resource/mybatis_conf.xml";
+		Reader reader = Resources.getResourceAsReader(resource);
+		SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+		SqlSession session = sessionFactory.openSession();
+		String statement = "com.flouis.mybatis.resource.userMapper.findAllUsers";
+		List<User> userList = session.selectList(statement);
+		for(User user : userList){
+			System.out.println(user.getId()+":"+user.getName()+":"+user.getAge());
+		}
+		session.close();
+		reader.close();
+	}
+	
+	@Test
+	public void testInsertUser() throws Exception{
+		String resource = "com/flouis/mybatis/resource/mybatis_conf.xml";
+		Reader reader = Resources.getResourceAsReader(resource);
+		SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+		SqlSession session = sessionFactory.openSession(true);
+		String statement = "com.flouis.mybatis.resource.userMapper.insertUser";
+		User newUser = new User("test",100);
+		int res = session.insert(statement, newUser);
+//		session.commit();
+		System.out.println(res);
+		session.close();
+		reader.close();
+	}
+	
+	@Test
+	public void testDeleterUserById() throws Exception{
+		String resource = "com/flouis/mybatis/resource/mybatis_conf.xml";
+		Reader reader = Resources.getResourceAsReader(resource);
+		SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+		SqlSession session = sessionFactory.openSession(true);
+		String statement = "com.flouis.mybatis.resource.userMapper.deleteUserById";
+		int res = session.delete(statement, 8);
+		System.out.println(res);
+		session.close();
+		reader.close();
+	}
+	
+	@Test
+	public void testUpdateUserById() throws Exception{
+		String resource = "com/flouis/mybatis/resource/mybatis_conf.xml";
+		Reader reader = Resources.getResourceAsReader(resource);
+		SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+		SqlSession session = sessionFactory.openSession(true);
+		String statement = "com.flouis.mybatis.resource.userMapper.updateUserById";
+		User tmpUser = new User(7,"TSET",50);
+		int res = session.update(statement, tmpUser);
+		System.out.println(res);
+		session.close();
+		reader.close();
+	}
 }
