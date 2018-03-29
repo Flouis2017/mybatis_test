@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flouis.mybatis.resource.studentMapper">
+	
+	<!-- 
+		联表查询
+		关键词:	association		: 用于一对一的关联查询
+			    	property	: 类中成员变量名
+			    	column		: 表中字段名
+			    	javaType	: 实体类名
+			    	select		: 使用另一个查询封装的结果
+	-->
+	
+	
+	<!-- 方式一嵌套结果：-->
+	<select id="getStudent" parameterType="int" resultMap="StudentResultMap">
+		select * from student s left join class c on s.c_id = c.c_id where s.s_id = #{id}
+	</select>
+	<resultMap type="_Student" id="StudentResultMap">
+		<id property="id" column="s_id"/>
+		<result property="name" column="s_name"/>
+		<association property="myClass" column="c_id" javaType="_MyClass">
+			<id property="id" column="c_id"/>
+			<result property="name" column="c_name"/>
+		</association>
+	</resultMap>
+	
+	<!-- 方式二嵌套查询：实际的做法就是查完主表，在根据外键去查副表 -->
+	<select id="getStudent2" parameterType="int" resultMap="StudentResultMap2">
+		select * from student s where s.s_id = #{id}
+	</select>
+	<resultMap type="_Student" id="StudentResultMap2">
+		<id property="id" column="s_id"/>
+		<result property="name" column="s_name"/>
+		<association property="myClass" column="c_id" javaType="_MyClass" select="getClass">
+		</association>
+	</resultMap>
+	<select id="getClass" parameterType="int" resultType="_MyClass">
+		<!-- 特别注意：因为字段名和需要映射的成员变量名可能不匹配，所以这里
+			 得做两者映射，做法参照orderMapper.xml中的方式，这里为了方便使用方式一 -->
+		select c.c_id id,c.c_name name from class c where c.c_id = #{id}		
+	</select>
+</mapper>
+
+

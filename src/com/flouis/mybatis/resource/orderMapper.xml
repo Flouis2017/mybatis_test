@@ -5,7 +5,7 @@
 	
 	<!-- 解决字段名与实体类成员变量名不相同的冲突 -->
 	
-	<!-- 方式一：通过sql语句中定义别名 -->
+	<!-- 方式一：通过sql语句将字段名声明为成员变量名，这样MyBatis就能帮我们完成映射 -->
 	<select id="selectOrderById" parameterType="int" resultType="_Order">
 		select order_id id,order_code orderCode,order_price orderPrice
 		from orders where order_id = #{id}

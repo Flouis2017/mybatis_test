@@ -11,6 +11,8 @@
 	<typeAliases>
 		<typeAlias type="com.flouis.mybatis.entity.User" alias="user" />
 		<typeAlias type="com.flouis.mybatis.entity.Order" alias="_Order"/>
+		<typeAlias type="com.flouis.mybatis.entity.Student" alias="_Student"/>
+		<typeAlias type="com.flouis.mybatis.entity.MyClass" alias="_MyClass"/>
 	</typeAliases>
 	
 	<environments default="development">
@@ -31,6 +33,8 @@
 		<mapper class="com.flouis.mybatis.mapper.UserMapper"/>
 		
 		<mapper resource="com/flouis/mybatis/resource/orderMapper.xml"/>
+		
+		<mapper resource="com/flouis/mybatis/resource/studentMapper.xml"/>
 	</mappers>
 	
 </configuration>
