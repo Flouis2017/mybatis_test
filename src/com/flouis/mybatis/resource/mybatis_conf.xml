@@ -14,6 +14,7 @@
 		<typeAlias type="com.flouis.mybatis.entity.Major" alias="_Major"/>
 		<typeAlias type="com.flouis.mybatis.entity.Classes" alias="_Classes"/>
 		<typeAlias type="com.flouis.mybatis.entity.Student" alias="_Student"/>
+		<typeAlias type="com.flouis.mybatis.entity.SqlString" alias="_SqlString"/>
 	</typeAliases>
 	
 	<environments default="development">

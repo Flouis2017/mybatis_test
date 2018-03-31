@@ -32,7 +32,7 @@ public class MainTest {
 		String statement = "com.flouis.mybatis.resource.userMapper.getUser";
 		
 		//执行查询返回一个唯一 user 对象的 sql
-		User user = session.selectOne(statement, 1);
+		User user = session.selectOne(statement, "1");
 		System.out.println(user); // com.flouis.mybatis.entity.User@59ec2012
 		System.out.println(user.getId()+":"+user.getName()+":"+user.getAge());
 		
