@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flouis.mybatis.resource.classesMapper">
+	
+	<!-- 
+		联表查询(一)
+		关键词:	association		: 用于一对一的关联查询
+			    	property	: 类中成员变量名
+			    	column		: 表中字段名
+			    	javaType	: 实体类名
+			    	select		: 使用另一个查询封装的结果
+	-->
+	
+	<!-- 方式一嵌套结果：-->
+	<select id="getClass" parameterType="int" resultMap="ClassResultMap">
+		select * from class c left join major m on c.m_id = m.m_id 
+		where c.c_id = #{id}
+	</select>
+	<resultMap type="_Classes" id="ClassResultMap">
+		<id property="id" column="c_id"/>
+		<result property="classCode" column="c_code"/>
+		<association property="major" column="m_id" javaType="_Major">
+			<id property="id" column="m_id"/>
+			<result property="name" column="m_name"/>
+		</association>
+	</resultMap>
+	
+	<!-- 方式二嵌套查询：实际的做法就是查完主表，再根据外键去查副表 -->
+	<select id="getClass2" parameterType="int" resultMap="ClassResultMap2">
+		select * from class c where c.c_id = #{id}
+	</select>
+	<resultMap type="_Classes" id="ClassResultMap2">
+		<id property="id" column="c_id"/>
+		<result property="classCode" column="c_code"/>
+		<association property="major" column="m_id" javaType="_Major" 
+			select="getMajor">
+		</association>
+	</resultMap>
+	<select id="getMajor" parameterType="int" resultType="_Major">
+	<!-- 特别注意：因为字段名和需要映射的成员变量名可能不匹配，所以这里
+	得做两者映射，做法参照orderMapper.xml中的方式，这里为了方便使用方式一 -->
+		select m.m_id id,m.m_name name from major m where m.m_id = #{id}		
+	</select>
+	
+	
+	<!-- 
+		联表查询(二) 
+		关键词：collection	：用于一对多的关联查询
+				ofType		：指定集合中元素对象的类型	
+	-->
+	<!-- 方式一：嵌套结果————在SQL语句下功夫，直接将需要的数据一次性全部查出，
+		这种方式对SQL能力的要求比较高 -->
+	<select id="selectClass" parameterType="int" resultMap="ClassResultMap3">
+		select m.m_name,t.* from major m right join 
+		( select c.c_id cid,c.c_code,c.m_id mid,s.s_id,s.s_name 
+		from class c left join student s on c.c_id = s.c_id 
+		order by c.c_id ) t on m.m_id = t.mid
+		where t.cid = #{id} order by t.cid
+	</select>
+	<resultMap type="_Classes" id="ClassResultMap3">
+		<id property="id" column="cid"/>
+		<result property="classCode" column="c_code"/>
+		<association property="major" column="mid" javaType="_Major">
+			<id property="id" column="mid"/>
+			<result property="name" column="m_name"/>
+		</association>
+		<collection property="studentList" ofType="_Student">
+			<id property="id" column="s_id"/>
+			<result property="name" column="s_name"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 方式二：嵌套查询————先查主表记录，再根据关联的键去查附表记录 -->
+	<select id="selectClass2" parameterType="int" resultMap="ClassResultMap4">
+		select * from class where c_id = #{id}
+	</select>
+	<resultMap type="_Classes" id="ClassResultMap4">
+		<id property="id" column="c_id"/>
+		<result property="classCode" column="c_code"/>
+		<association property="major" column="m_id" javaType="_Major" 
+			select="getMajor"></association>
+		<collection property="studentList" column="c_id" ofType="_Student"
+			select="getStudentList"></collection>
+	</resultMap>
+	<select id="getStudentList" parameterType="int" resultType="_Student">
+		select s_id id,s_name name from student where c_id = #{asdf}
+	</select>
+	
+</mapper>
+
+

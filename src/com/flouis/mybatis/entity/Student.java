@@ -4,7 +4,6 @@ public class Student {
 
 	private int id;
 	private String name;
-	private MyClass myClass;
 	
 	public int getId() {
 		return id;
@@ -18,24 +17,16 @@ public class Student {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public MyClass getMyClass() {
-		return myClass;
-	}
-	public void setMyClass(MyClass myClass) {
-		this.myClass = myClass;
-	}
 	
 	public Student(){}
 	
-	public Student(int id, String name, MyClass myClass) {
-		this.id = id;
+	public Student(String name){
 		this.name = name;
-		this.myClass = myClass;
 	}
 	
-	public Student(String name, MyClass myClass) {
+	public Student(int id,String name){
+		this.id = id;
 		this.name = name;
-		this.myClass = myClass;
 	}
 	
 }

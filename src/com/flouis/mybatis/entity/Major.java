@@ -1,7 +1,7 @@
 package com.flouis.mybatis.entity;
 
-public class MyClass {
-
+public class Major {
+	
 	private int id;
 	private String name;
 	
@@ -18,15 +18,14 @@ public class MyClass {
 		this.name = name;
 	}
 	
-	public MyClass(){}
+	public Major(){}
 	
-	public MyClass(int id, String name) {
+	public Major(String name){
+		this.name = name;
+	}
+
+	public Major(int id,String name){
 		this.id = id;
 		this.name = name;
 	}
-	
-	public MyClass(String name) {
-		this.name = name;
-	}
-	
 }
