@@ -15,6 +15,7 @@
 		<typeAlias type="com.flouis.mybatis.entity.Classes" alias="_Classes"/>
 		<typeAlias type="com.flouis.mybatis.entity.Student" alias="_Student"/>
 		<typeAlias type="com.flouis.mybatis.entity.SqlString" alias="_SqlString"/>
+		<typeAlias type="com.flouis.mybatis.entity.Person" alias="_Person"/>
 	</typeAliases>
 	
 	<environments default="development">
@@ -39,6 +40,8 @@
 		<mapper resource="com/flouis/mybatis/resource/classesMapper.xml"/>
 		
 		<mapper resource="com/flouis/mybatis/resource/majorMapper.xml"/>
+		
+		<mapper resource="com/flouis/mybatis/resource/personMapper.xml"/>
 	</mappers>
 	
 </configuration>
