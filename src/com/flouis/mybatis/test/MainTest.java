@@ -33,7 +33,7 @@ public class MainTest {
 		
 		//执行查询返回一个唯一 user 对象的 sql
 		User user = session.selectOne(statement, "1");
-		System.out.println(user); // com.flouis.mybatis.entity.User@59ec2012
+		System.out.println(user); // @7fac631b
 		System.out.println(user.getId()+":"+user.getName()+":"+user.getAge());
 		
 		session.close();
@@ -48,6 +48,7 @@ public class MainTest {
 		SqlSession session = sessionFactory.openSession();
 		String statement = "com.flouis.mybatis.resource.userMapper.findUserById";
 		User user = session.selectOne(statement, 2);
+		System.out.println(user); // @7fac631b
 		System.out.println(user.getId()+":"+user.getName()+":"+user.getAge());
 		session.close();
 		reader.close();
