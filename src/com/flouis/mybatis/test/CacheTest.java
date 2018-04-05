@@ -22,12 +22,10 @@ public class CacheTest {
 		User user = session.selectOne(statement,1);
 		System.out.println(user);
 		session.commit();
-		session.close();
-		
-		session = ssf.openSession();
-		user =  session.selectOne(statement,1);
+//		session.close();
+//		session = ssf.openSession();
+		user = session.selectOne(statement,1);
 		System.out.println(user);
-		session.commit();
 		
 	}
 	
